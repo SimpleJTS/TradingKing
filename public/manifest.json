@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "TradingKing Floating Trader",
+  "description": "BSC and Solana floating-window trading assistant with modular route detection.",
+  "version": "0.1.0",
+  "action": {
+    "default_title": "TradingKing"
+  },
+  "background": {
+    "service_worker": "assets/background/index.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["assets/content/index.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": ["storage", "activeTab"],
+  "host_permissions": ["https://*/*", "http://*/*"]
+}
