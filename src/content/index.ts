@@ -61,61 +61,61 @@ const STYLES = `
 * { box-sizing: border-box; }
 button, input, select { font: inherit; }
 button { border: 0; }
-.tk-window { position: fixed; right: 16px; bottom: 16px; width: 320px; min-width: 320px; max-width: 320px; color: #eef2f4; background: #15171b; border: 1px solid #252931; border-radius: 9px; box-shadow: 0 18px 48px rgba(0,0,0,.5); overflow: hidden; z-index: 2147483647; }
-.tk-card { display: flex; flex-direction: column; gap: 12px; width: 100%; padding: 12px 14px; background: #171a1f; border-radius: 12px; font-size: 12px; overflow: hidden; }
-.tk-topbar { height: 48px; min-height: 48px; display: flex; align-items: center; justify-content: space-between; margin: -12px -14px 0; padding: 0 14px; border-bottom: 1px solid #252a32; cursor: grab; user-select: none; }
-.tk-tools, .tk-actions { display: flex; align-items: center; gap: 12px; }
-.tk-icon { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; color: #88919b; background: transparent; cursor: pointer; padding: 0; }
+.tk-window { position: fixed; right: 10px; bottom: 10px; width: 286px; min-width: 286px; max-width: 286px; max-height: min(460px, calc(100vh - 20px)); color: #eef2f4; background: #15171b; border: 1px solid #252931; border-radius: 9px; box-shadow: 0 12px 32px rgba(0,0,0,.42); overflow: hidden; z-index: 2147483647; }
+.tk-card { display: flex; flex-direction: column; gap: 8px; width: 100%; max-height: min(460px, calc(100vh - 20px)); padding: 10px 12px; background: #171a1f; border-radius: 12px; font-size: 11px; overflow-y: auto; scrollbar-width: thin; }
+.tk-topbar { height: 38px; min-height: 38px; display: flex; align-items: center; justify-content: space-between; margin: -10px -12px 0; padding: 0 10px; border-bottom: 1px solid #252a32; cursor: grab; user-select: none; }
+.tk-tools, .tk-actions { display: flex; align-items: center; gap: 9px; }
+.tk-icon { display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; color: #88919b; background: transparent; cursor: pointer; padding: 0; }
 .tk-icon-active { color: #7be59f; }
-.tk-icon svg { width: 16px; height: 16px; fill: currentColor; }
-.tk-wallet-pill { display: inline-flex; align-items: center; gap: 4px; min-width: 44px; height: 24px; padding: 0 6px; color: #f0f3f5; background: #23272f; border-radius: 4px; cursor: pointer; }
+.tk-icon svg { width: 14px; height: 14px; fill: currentColor; }
+.tk-wallet-pill { display: inline-flex; align-items: center; gap: 3px; min-width: 38px; height: 22px; padding: 0 5px; color: #f0f3f5; background: #23272f; border-radius: 4px; cursor: pointer; }
 .tk-wallet-pill svg { width: 14px; height: 14px; fill: currentColor; }
 .tk-muted { color: #7f8790; }
-.tk-section { display: flex; flex-direction: column; gap: 8px; width: 100%; }
-.tk-section-head { display: flex; justify-content: space-between; align-items: center; min-height: 22px; position: relative; }
-.tk-title-tabs { display: flex; align-items: center; gap: 6px; color: #f4f6f8; font-size: 14px; font-weight: 600; white-space: nowrap; }
-.tk-title-tabs strong { font-size: 13px; font-weight: 600; }
+.tk-section { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+.tk-section-head { display: flex; justify-content: space-between; align-items: center; min-height: 20px; position: relative; }
+.tk-title-tabs { display: flex; align-items: center; gap: 5px; color: #f4f6f8; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.tk-title-tabs strong { font-size: 12px; font-weight: 600; }
 .tk-gear-tabs { display: inline-flex; align-items: center; gap: 2px; padding: 2px; border-radius: 4px; background: transparent; }
-.tk-gear { display: inline-flex; align-items: center; justify-content: center; height: 22px; min-width: 22px; padding: 0 4px; border-radius: 4px; color: #78818b; background: transparent; font-size: 12px; cursor: pointer; }
+.tk-gear { display: inline-flex; align-items: center; justify-content: center; height: 18px; min-width: 18px; padding: 0 3px; border-radius: 4px; color: #78818b; background: transparent; font-size: 11px; cursor: pointer; }
 .tk-gear-active { color: #7be59f; background: #20242b; }
-.tk-balance { display: flex; align-items: center; gap: 4px; color: #eff3f5; font-size: 12px; white-space: nowrap; max-width: 130px; overflow: hidden; text-overflow: ellipsis; }
+.tk-balance { display: flex; align-items: center; gap: 3px; color: #eff3f5; font-size: 11px; white-space: nowrap; max-width: 112px; overflow: hidden; text-overflow: ellipsis; }
 .tk-bnb { color: #fed15c; }
-.tk-preset-grid { display: flex; flex-wrap: wrap; gap: 8px; min-height: 28px; }
-.tk-preset-wrap { width: calc(25% - 6px); min-width: calc(25% - 6px); }
-.tk-preset { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 28px; height: 28px; border: 1px solid currentColor; border-radius: 6px; background: transparent; font-size: 13px; font-weight: 650; cursor: pointer; user-select: none; }
+.tk-preset-grid { display: flex; flex-wrap: wrap; gap: 6px; min-height: 24px; }
+.tk-preset-wrap { width: calc(25% - 5px); min-width: calc(25% - 5px); }
+.tk-preset { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 24px; height: 24px; border: 1px solid currentColor; border-radius: 6px; background: transparent; font-size: 12px; font-weight: 650; cursor: pointer; user-select: none; }
 .tk-buy { color: #79e59d; }
 .tk-buy:hover { background: rgba(121,229,157,.12); }
 .tk-sell { color: #ff638b; }
 .tk-sell:hover { background: rgba(255,99,139,.12); }
-.tk-options { display: flex; align-items: center; justify-content: space-between; height: 24px; color: #858d96; }
-.tk-option-list { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.tk-options { display: flex; align-items: center; justify-content: space-between; height: 20px; color: #858d96; }
+.tk-option-list { display: flex; align-items: center; gap: 5px; min-width: 0; }
 .tk-option { display: inline-flex; align-items: center; gap: 2px; color: #858d96; white-space: nowrap; }
-.tk-option svg { width: 14px; height: 14px; fill: currentColor; }
+.tk-option svg { width: 12px; height: 12px; fill: currentColor; }
 .tk-option-strong { color: #fed15c; }
 .tk-advanced-link { display: inline-flex; align-items: center; gap: 4px; color: #858d96; text-decoration: underline; background: transparent; cursor: pointer; padding: 0; white-space: nowrap; }
 .tk-checkbox { width: 14px; height: 14px; border: 1px solid #858d96; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; }
 .tk-checkbox-on::after { content: ''; width: 8px; height: 8px; border-radius: 2px; background: #7be59f; }
-.tk-divider { height: 1px; margin: 0 -14px; background: #252a32; }
-.tk-pnl { margin: -4px -14px 0; padding: 8px 14px 0; border-top: 1px solid #252a32; }
+.tk-divider { height: 1px; margin: 0 -12px; background: #252a32; }
+.tk-pnl { margin: -2px -12px 0; padding: 6px 12px 0; border-top: 1px solid #252a32; }
 .tk-pnl-grid { display: flex; align-items: center; justify-content: space-between; width: 100%; }
-.tk-stat { display: flex; flex-direction: column; gap: 4px; min-width: 58px; color: #858d96; white-space: nowrap; }
-.tk-stat:nth-child(2), .tk-stat:nth-child(3) { align-items: center; min-width: 66px; }
-.tk-stat:last-child { align-items: flex-end; min-width: 66px; }
+.tk-stat { display: flex; flex-direction: column; gap: 2px; min-width: 48px; color: #858d96; white-space: nowrap; }
+.tk-stat:nth-child(2), .tk-stat:nth-child(3) { align-items: center; min-width: 58px; }
+.tk-stat:last-child { align-items: flex-end; min-width: 58px; }
 .tk-stat-value { color: #858d96; font-weight: 600; }
-.tk-detected { color: #858d96; font-size: 11px; line-height: 1.35; word-break: break-all; }
-.tk-route { padding: 8px; border: 1px solid #282d36; border-radius: 8px; color: #9aa3ad; background: #14161a; font-size: 11px; line-height: 1.5; word-break: break-all; }
+.tk-detected { display: none; color: #858d96; font-size: 10px; line-height: 1.25; word-break: break-all; }
+.tk-route { max-height: 120px; overflow-y: auto; padding: 6px; border: 1px solid #282d36; border-radius: 8px; color: #9aa3ad; background: #14161a; font-size: 10px; line-height: 1.45; word-break: break-all; }
 .tk-route strong { color: #eff3f5; }
 .tk-warning { color: #f6d365; }
-.tk-settings, .tk-wallet-panel { display: none; flex-direction: column; gap: 10px; padding: 10px; border: 1px solid #2b3038; border-radius: 8px; background: #14161a; }
+.tk-settings, .tk-wallet-panel { display: none; flex-direction: column; gap: 8px; max-height: 250px; overflow-y: auto; padding: 8px; border: 1px solid #2b3038; border-radius: 8px; background: #14161a; }
 .tk-settings-open [data-settings-panel] { display: flex; }
 .tk-settings-title { display: flex; align-items: center; justify-content: space-between; color: #eff3f5; font-weight: 650; }
-.tk-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.tk-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 .tk-field { display: flex; flex-direction: column; gap: 4px; color: #858d96; }
 .tk-field-full { grid-column: 1 / -1; }
-.tk-input, .tk-select { width: 100%; height: 28px; padding: 0 8px; border: 1px solid #303640; border-radius: 6px; color: #eff3f5; background: #1d2026; outline: none; }
+.tk-input, .tk-select { width: 100%; height: 24px; padding: 0 6px; border: 1px solid #303640; border-radius: 6px; color: #eff3f5; background: #1d2026; outline: none; }
 .tk-input:focus, .tk-select:focus { border-color: #7be59f; }
-.tk-small-btn { height: 28px; padding: 0 10px; border-radius: 6px; color: #101418; background: #7be59f; font-weight: 700; cursor: pointer; }
-.tk-ghost-btn { height: 28px; padding: 0 10px; border: 1px solid #303640; border-radius: 6px; color: #c7cdd3; background: transparent; cursor: pointer; }
+.tk-small-btn { height: 24px; padding: 0 8px; border-radius: 6px; color: #101418; background: #7be59f; font-weight: 700; cursor: pointer; }
+.tk-ghost-btn { height: 24px; padding: 0 8px; border: 1px solid #303640; border-radius: 6px; color: #c7cdd3; background: transparent; cursor: pointer; }
 .tk-wallet-list { display: flex; flex-direction: column; gap: 6px; max-height: 120px; overflow-y: auto; }
 .tk-wallet-row { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 6px; border: 1px solid #282d36; border-radius: 6px; background: #191c21; color: #c7cdd3; }
 .tk-wallet-main { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
