@@ -21,10 +21,15 @@ test('slippage helper applies basis-point reduction formula', () => {
 
 test('content script keeps OpenFour-ready floating shell and dual-chain/debot detection', () => {
   assert.match(contentSource, /TradingKing/);
-  assert.match(contentSource, /Four\.meme OpenFour ready/);
+  assert.match(contentSource, /Four\.meme OpenFour/);
   assert.match(contentSource, /BSC_ADDRESS_RE/);
   assert.match(contentSource, /SOLANA_MINT_RE/);
   assert.match(contentSource, /debot-page-detector/);
+  assert.match(contentSource, /tk-fast-trade-panel/);
+  assert.match(contentSource, /data-buy-amount=\"0\.036\"/);
+  assert.match(contentSource, /data-sell-percent=\"100\"/);
+  assert.match(contentSource, /买入/);
+  assert.match(contentSource, /卖出/);
 });
 
 test('Four.meme OpenFour path prepares executable TokenManager calldata', () => {

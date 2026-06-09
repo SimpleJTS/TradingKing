@@ -1,4 +1,5 @@
 type Chain = 'bsc' | 'solana';
+type TradeSide = 'buy' | 'sell';
 
 interface DetectedAsset {
   chain: Chain;
@@ -25,22 +26,54 @@ const STYLES = `
 :host { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
 * { box-sizing: border-box; }
 button, input, select { font: inherit; }
-.tk-window { position: fixed; right: 24px; bottom: 24px; width: 360px; max-width: calc(100vw - 32px); color: #eff6ff; background: rgba(8, 13, 26, 0.96); border: 1px solid rgba(96, 165, 250, 0.35); border-radius: 18px; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45); overflow: hidden; backdrop-filter: blur(18px); z-index: 2147483647; }
-.tk-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; cursor: grab; background: linear-gradient(135deg, rgba(37, 99, 235, 0.42), rgba(14, 165, 233, 0.16)); user-select: none; }
-.tk-title { display: flex; flex-direction: column; gap: 2px; font-weight: 800; }
-.tk-subtitle { color: #bfdbfe; font-size: 11px; font-weight: 500; }
-.tk-icon-button, .tk-primary-button { border: 0; border-radius: 10px; color: #eff6ff; background: rgba(59, 130, 246, 0.35); cursor: pointer; }
-.tk-icon-button { width: 32px; height: 32px; }
-.tk-body { display: grid; gap: 12px; padding: 14px; }
-.tk-row { display: grid; gap: 6px; }
-.tk-label { color: #93c5fd; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
-.tk-input, .tk-select { width: 100%; border: 1px solid rgba(148, 163, 184, 0.35); border-radius: 12px; color: #eff6ff; background: rgba(15, 23, 42, 0.82); padding: 10px; outline: none; }
-.tk-primary-button { padding: 10px 12px; font-weight: 800; background: linear-gradient(135deg, #2563eb, #0891b2); }
-.tk-card { border: 1px solid rgba(148, 163, 184, 0.22); border-radius: 14px; padding: 10px; background: rgba(15, 23, 42, 0.6); }
-.tk-muted { color: #cbd5e1; font-size: 12px; line-height: 1.45; }
-.tk-warning { color: #fde68a; }
-.tk-collapsed { width: auto; }
-.tk-collapsed .tk-body { display: none; }
+.tk-window { position: fixed; right: 10px; bottom: 16px; width: 644px; max-width: calc(100vw - 16px); color: #f4f7f8; background: #181a1f; border: 1px solid #2d3138; border-radius: 0 0 18px 18px; box-shadow: 0 18px 60px rgba(0, 0, 0, 0.58); overflow: hidden; z-index: 2147483647; }
+.tk-topbar { height: 92px; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 18px 28px 16px; border-bottom: 1px solid #2a2d33; background: #191b20; cursor: grab; user-select: none; }
+.tk-drag-dots { position: absolute; left: 50%; top: 9px; transform: translateX(-50%); color: #68707a; font-size: 16px; letter-spacing: 1px; line-height: 8px; opacity: 0.7; }
+.tk-toolbar-left, .tk-toolbar-right { display: flex; align-items: center; gap: 24px; }
+.tk-tool { border: 0; padding: 0; color: #7be4a1; background: transparent; cursor: pointer; font-size: 30px; line-height: 1; opacity: 0.96; }
+.tk-tool-muted { color: #828a93; }
+.tk-wallet-pill { display: flex; align-items: center; gap: 10px; height: 48px; padding: 0 13px; border: 0; border-radius: 8px; color: #e7ecef; background: #24272d; cursor: pointer; font-size: 24px; }
+.tk-wallet-icon { font-size: 25px; }
+.tk-wallet-count { font-weight: 700; }
+.tk-chevron { color: #929aa3; font-size: 28px; }
+.tk-icon-action { border: 0; padding: 0; color: #8a929c; background: transparent; cursor: pointer; font-size: 34px; line-height: 1; }
+.tk-body { display: grid; background: #181a1f; }
+.tk-panel { padding: 29px 29px 24px; border-bottom: 1px solid #2a2d33; }
+.tk-panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+.tk-tabs { display: flex; align-items: center; gap: 24px; font-size: 24px; font-weight: 800; }
+.tk-side-title { color: #f8fafc; }
+.tk-tab { color: #757e87; }
+.tk-tab-active { color: #83e6a5; }
+.tk-balance { display: flex; align-items: center; gap: 7px; color: #f8fafc; font-size: 24px; }
+.tk-coin { color: #f4c542; font-size: 23px; filter: drop-shadow(0 0 4px rgba(244, 197, 66, 0.28)); }
+.tk-preset-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.tk-preset { height: 109px; border-radius: 10px; background: #1b1d22; font-size: 26px; font-weight: 850; cursor: pointer; transition: transform 120ms ease, background 120ms ease, box-shadow 120ms ease; }
+.tk-preset:hover { transform: translateY(-1px); }
+.tk-buy-preset { border: 2px solid #82e5a3; color: #89eaa8; }
+.tk-buy-preset:hover { background: rgba(130, 229, 163, 0.08); box-shadow: 0 0 0 3px rgba(130, 229, 163, 0.08); }
+.tk-sell-preset { border: 2px solid #ff5d8a; color: #ff668f; }
+.tk-sell-preset:hover { background: rgba(255, 93, 138, 0.08); box-shadow: 0 0 0 3px rgba(255, 93, 138, 0.08); }
+.tk-options { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 33px; margin-top: 22px; color: #858d96; font-size: 23px; font-weight: 650; }
+.tk-option-left, .tk-option-right { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.tk-option-item { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.tk-check { width: 29px; height: 29px; border: 2px solid #8f99a4; border-radius: 9px; display: inline-block; }
+.tk-options-sell .tk-burger { color: #ffcf66; }
+.tk-divider { height: 1px; margin: 11px 29px 0; background: #333740; }
+.tk-bottom { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; padding: 20px 29px 33px; color: #77818c; font-size: 24px; }
+.tk-stat { display: grid; gap: 12px; min-width: 0; }
+.tk-stat-label { display: flex; align-items: center; gap: 2px; white-space: nowrap; }
+.tk-stat-value { color: #9aa3ad; }
+.tk-detected { padding: 10px 29px; border-bottom: 1px solid #2a2d33; color: #7f8993; font-size: 12px; line-height: 1.35; }
+.tk-route { padding: 13px 29px 18px; border-top: 1px solid #2a2d33; color: #9aa3ad; background: #17191d; font-size: 12px; line-height: 1.55; }
+.tk-route strong { color: #f4f7f8; }
+.tk-route-grid { display: grid; grid-template-columns: 66px minmax(0, 1fr); gap: 4px 8px; }
+.tk-route-value { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tk-warning { color: #f6d365; }
+.tk-hidden { display: none; }
+.tk-collapsed { width: auto; border-radius: 14px; }
+.tk-collapsed .tk-body, .tk-collapsed .tk-detected, .tk-collapsed .tk-route { display: none; }
+.tk-collapsed .tk-topbar { height: 58px; padding: 10px 14px; border-bottom: 0; }
+.tk-collapsed .tk-toolbar-left .tk-tool:not(:first-child), .tk-collapsed .tk-wallet-pill, .tk-collapsed .tk-icon-action[data-settings] { display: none; }
 `;
 
 function chainFromHostAndPath(url: URL): Chain | null {
@@ -97,7 +130,6 @@ function ensureTradingKingHost(): ShadowRoot {
   document.documentElement.append(host);
   return host.attachShadow({ mode: 'open' });
 }
-
 
 function restorePosition(app: HTMLElement): void {
   const raw = localStorage.getItem(POSITION_STORAGE_KEY);
@@ -160,15 +192,33 @@ function renderWarnings(warnings: string[]): string {
   return warnings.map((warning) => `<div class="tk-warning">⚠ ${warning}</div>`).join('');
 }
 
-async function requestQuote(chain: Chain, tokenAddress: string, amount: string): Promise<QuoteResult> {
+async function requestQuote(chain: Chain, tokenAddress: string, amount: string, side: TradeSide): Promise<QuoteResult> {
   const response = await chrome.runtime.sendMessage({
     type: 'QUOTE',
-    payload: { chain, tokenAddress, side: 'buy', amount, slippageBps: 500, source: location.hostname.toLowerCase().includes('debot') ? 'debot-page-detector' : 'floating-window' },
+    payload: {
+      chain,
+      tokenAddress,
+      side,
+      amount,
+      slippageBps: 500,
+      source: location.hostname.toLowerCase().includes('debot') ? 'debot-page-detector' : 'floating-window',
+    },
   }) as { ok: boolean; data?: QuoteResult; error?: string };
   if (!response.ok || !response.data) {
     throw new Error(response.error ?? 'Background request failed');
   }
   return response.data;
+}
+
+function renderRoute(quote: QuoteResult): string {
+  const path = quote.tradePath;
+  return `
+    <div class="tk-route-grid">
+      <strong>Status</strong><span class="tk-route-value">${quote.protocol} · ${quote.phase}</span>
+      ${path ? `<strong>Router</strong><span class="tk-route-value">${path.router}</span><strong>Method</strong><span class="tk-route-value">${path.method}</span><strong>Calldata</strong><span class="tk-route-value">${path.calldata}</span>` : ''}
+    </div>
+    ${renderWarnings(quote.warnings)}
+  `;
 }
 
 function boot(): void {
@@ -177,54 +227,90 @@ function boot(): void {
   const style = document.createElement('style');
   style.textContent = STYLES;
   const app = document.createElement('section');
-  app.className = 'tk-window';
-  app.setAttribute('aria-label', 'TradingKing floating trader');
+  app.className = 'tk-window tk-fast-trade-panel';
+  app.setAttribute('aria-label', 'TradingKing fast trade floating panel');
   app.innerHTML = `
-    <header class="tk-header">
-      <div class="tk-title">
-        <span>TradingKing</span>
-        <span class="tk-subtitle">BSC · Solana · Four.meme OpenFour ready</span>
+    <header class="tk-topbar">
+      <div class="tk-drag-dots">···<br>···</div>
+      <div class="tk-toolbar-left" aria-label="TradingKing tool tabs">
+        <button class="tk-tool" type="button" title="Fast trade">▦</button>
+        <button class="tk-tool" type="button" title="Market stats">▮▮▮</button>
+        <button class="tk-tool tk-tool-muted" type="button" title="Chart">▰</button>
+        <button class="tk-tool" type="button" title="Routes">≋</button>
+        <button class="tk-tool tk-tool-muted" type="button" title="Edit presets">♢</button>
       </div>
-      <button class="tk-icon-button" type="button" data-collapse aria-label="Toggle TradingKing">—</button>
+      <div class="tk-toolbar-right">
+        <button class="tk-wallet-pill" type="button" title="Wallet group"><span class="tk-wallet-icon">▣</span><span class="tk-wallet-count">1</span><span class="tk-chevron">⌄</span></button>
+        <button class="tk-icon-action" type="button" data-settings title="Settings">⚙</button>
+        <button class="tk-icon-action" type="button" data-collapse aria-label="Close or collapse TradingKing">×</button>
+      </div>
     </header>
-    <div class="tk-body">
-      <div class="tk-card tk-muted" data-detected></div>
-      <label class="tk-row"><span class="tk-label">Chain</span><select class="tk-select" data-chain><option value="bsc">BSC</option><option value="solana">Solana</option></select></label>
-      <label class="tk-row"><span class="tk-label">Token / Mint</span><input class="tk-input" data-address placeholder="Contract address or mint" /></label>
-      <label class="tk-row"><span class="tk-label">Buy Amount</span><input class="tk-input" data-amount value="0.01" /></label>
-      <button class="tk-primary-button" type="button" data-quote>Simulate Route</button>
-      <div class="tk-card tk-muted" data-status>Ready. Live trading is disabled until adapters are verified.</div>
-    </div>`;
+    <div class="tk-detected" data-detected></div>
+    <main class="tk-body" data-route-kind="Four.meme OpenFour">
+      <section class="tk-panel tk-buy-panel" aria-label="Buy panel">
+        <div class="tk-panel-header">
+          <div class="tk-tabs"><span class="tk-side-title">买入</span><span class="tk-tab tk-tab-active">P1</span><span class="tk-tab">P2</span><span class="tk-tab">P3</span></div>
+          <div class="tk-balance"><span class="tk-coin">⬡</span><span data-buy-balance>0.0367</span></div>
+        </div>
+        <div class="tk-preset-grid" data-buy-presets>
+          <button class="tk-preset tk-buy-preset" type="button" data-buy-amount="0.02">0.02</button>
+          <button class="tk-preset tk-buy-preset" type="button" data-buy-amount="0.036">0.036</button>
+          <button class="tk-preset tk-buy-preset" type="button" data-buy-amount="0.066">0.066</button>
+          <button class="tk-preset tk-buy-preset" type="button" data-buy-amount="0.086">0.086</button>
+        </div>
+        <div class="tk-options">
+          <div class="tk-option-left"><span class="tk-option-item">🏃 自动</span><span class="tk-option-item">⛽ 0.1</span><span class="tk-option-item">🧞 0</span><span class="tk-option-item">🍔 开</span></div>
+          <div class="tk-option-right"><span class="tk-check"></span><span>高级</span></div>
+        </div>
+      </section>
+      <div class="tk-divider"></div>
+      <section class="tk-panel tk-sell-panel" aria-label="Sell panel">
+        <div class="tk-panel-header">
+          <div class="tk-tabs"><span class="tk-side-title">卖出</span><span class="tk-tab tk-tab-active">P1</span><span class="tk-tab">P2</span><span class="tk-tab">P3</span></div>
+          <div class="tk-balance"><span>0 Don't pa</span><span class="tk-coin">⬡</span><span data-sell-balance>0</span></div>
+        </div>
+        <div class="tk-preset-grid" data-sell-presets>
+          <button class="tk-preset tk-sell-preset" type="button" data-sell-percent="10">10%</button>
+          <button class="tk-preset tk-sell-preset" type="button" data-sell-percent="25">25%</button>
+          <button class="tk-preset tk-sell-preset" type="button" data-sell-percent="50">50%</button>
+          <button class="tk-preset tk-sell-preset" type="button" data-sell-percent="100">100%</button>
+        </div>
+        <div class="tk-options tk-options-sell">
+          <div class="tk-option-left"><span class="tk-option-item">🏃 自动</span><span class="tk-option-item">⛽ 0.1</span><span class="tk-option-item">🧞 0</span><span class="tk-option-item tk-burger">🍔 关</span></div>
+          <div class="tk-option-right"><span>回本</span></div>
+        </div>
+      </section>
+      <footer class="tk-bottom">
+        <div class="tk-stat"><span class="tk-stat-label">余额 🪙</span><span class="tk-stat-value" data-stat-balance>--</span></div>
+        <div class="tk-stat"><span class="tk-stat-label">总买入 ↗</span><span class="tk-stat-value" data-stat-buy>--</span></div>
+        <div class="tk-stat"><span class="tk-stat-label">总卖出</span><span class="tk-stat-value" data-stat-sell>--</span></div>
+        <div class="tk-stat"><span class="tk-stat-label">总利润 ↘</span><span class="tk-stat-value" data-stat-profit>--</span></div>
+      </footer>
+    </main>
+    <aside class="tk-route tk-hidden" data-route></aside>`;
 
   shadow.append(style, app);
   restorePosition(app);
 
-  const header = app.querySelector<HTMLElement>('.tk-header');
+  const header = app.querySelector<HTMLElement>('.tk-topbar');
   if (header) {
     enableDragging(app, header);
   }
 
   const detected = app.querySelector('[data-detected]');
-  const chainInput = app.querySelector<HTMLSelectElement>('[data-chain]');
-  const addressInput = app.querySelector<HTMLInputElement>('[data-address]');
-  const amountInput = app.querySelector<HTMLInputElement>('[data-amount]');
-  const status = app.querySelector('[data-status]');
+  const route = app.querySelector<HTMLElement>('[data-route]');
   const collapseButton = app.querySelector<HTMLButtonElement>('[data-collapse]');
-  const quoteButton = app.querySelector<HTMLButtonElement>('[data-quote]');
+  const tokenAddress = initialAsset?.address ?? '';
+  const chain: Chain = initialAsset?.chain ?? 'bsc';
 
   if (detected) {
     detected.textContent = initialAsset
-      ? `${initialAsset.chain.toUpperCase()} token from ${initialAsset.source} (${Math.round(initialAsset.confidence * 100)}% confidence)`
-      : 'No page token detected yet. Paste a BSC contract or Solana mint.';
-  }
-  if (initialAsset && chainInput && addressInput) {
-    chainInput.value = initialAsset.chain;
-    addressInput.value = initialAsset.address;
+      ? `${initialAsset.chain.toUpperCase()} · ${initialAsset.address} · ${initialAsset.source} · ${Math.round(initialAsset.confidence * 100)}% confidence`
+      : '未检测到页面 Token；打开 Four.meme / DeBot / GMGN / DexScreener 等页面后会自动识别，或后续在高级区手动粘贴合约。';
   }
 
   collapseButton?.addEventListener('click', () => {
     app.classList.toggle('tk-collapsed');
-    collapseButton.textContent = app.classList.contains('tk-collapsed') ? '↗' : '—';
   });
 
   window.addEventListener('keydown', (event) => {
@@ -233,19 +319,50 @@ function boot(): void {
     }
   });
 
-  quoteButton?.addEventListener('click', () => {
-    void (async () => {
-      if (!chainInput || !addressInput || !amountInput || !status) {
-        return;
-      }
-      status.textContent = 'Requesting simulation quote...';
-      try {
-        const quote = await requestQuote(chainInput.value as Chain, addressInput.value.trim(), amountInput.value);
-        status.innerHTML = `<strong>Status:</strong> Simulation quote ready.<div>Protocol: ${quote.protocol}</div><div>Phase: ${quote.phase}</div>${quote.tradePath ? `<div>Router: ${quote.tradePath.router}</div><div>Method: ${quote.tradePath.method}</div><div>Calldata: ${quote.tradePath.calldata.slice(0, 18)}…</div>` : ''}${renderWarnings(quote.warnings)}`;
-      } catch (error) {
-        status.textContent = error instanceof Error ? error.message : 'Quote failed';
-      }
-    })();
+  app.querySelectorAll<HTMLButtonElement>('[data-buy-amount]').forEach((button) => {
+    button.addEventListener('click', () => {
+      void (async () => {
+        if (!route) {
+          return;
+        }
+        if (!tokenAddress) {
+          route.classList.remove('tk-hidden');
+          route.textContent = '未检测到 token，无法生成买入路径。';
+          return;
+        }
+        route.classList.remove('tk-hidden');
+        route.textContent = `正在生成买入路径：${button.dataset.buyAmount ?? '0'} ${chain.toUpperCase()}...`;
+        try {
+          const quote = await requestQuote(chain, tokenAddress, button.dataset.buyAmount ?? '0', 'buy');
+          route.innerHTML = renderRoute(quote);
+        } catch (error) {
+          route.textContent = error instanceof Error ? error.message : '买入路径生成失败';
+        }
+      })();
+    });
+  });
+
+  app.querySelectorAll<HTMLButtonElement>('[data-sell-percent]').forEach((button) => {
+    button.addEventListener('click', () => {
+      void (async () => {
+        if (!route) {
+          return;
+        }
+        if (!tokenAddress) {
+          route.classList.remove('tk-hidden');
+          route.textContent = '未检测到 token，无法生成卖出路径。';
+          return;
+        }
+        route.classList.remove('tk-hidden');
+        route.textContent = `正在生成卖出路径：${button.dataset.sellPercent ?? '0'}%...`;
+        try {
+          const quote = await requestQuote(chain, tokenAddress, '1', 'sell');
+          route.innerHTML = renderRoute(quote);
+        } catch (error) {
+          route.textContent = error instanceof Error ? error.message : '卖出路径生成失败';
+        }
+      })();
+    });
   });
 }
 

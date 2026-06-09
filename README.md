@@ -6,6 +6,7 @@ TradingKing is a Chrome Manifest V3 browser extension scaffold for a BSC and Sol
 
 - Injects a Shadow DOM isolated floating window into supported pages.
 - Detects BSC contracts and Solana mints from URLs and page text, including DeBot/Four.meme pages.
+- Uses a GMGN/DeBot-style dark fast-trade panel with top tool tabs, wallet selector, P1/P2/P3 buy/sell presets, green buy amount buttons, pink sell percentage buttons, advanced toggles, and bottom PnL summary slots.
 - Provides a simulation-first quote path through background adapters.
 - Prepares executable Four.meme TokenManager2 calldata for OpenFour/X Mode/Agentic/DeBot-integrated BSC flows while still requiring pre-broadcast chain simulation.
 - Includes an encrypted local wallet vault foundation using PBKDF2 and AES-GCM.
