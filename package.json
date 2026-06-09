@@ -1,0 +1,17 @@
+{
+  "name": "tradingking",
+  "version": "0.1.0",
+  "description": "BSC and Solana floating-window trading browser extension.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-extension.mjs",
+    "dev": "node scripts/build-extension.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test scripts/*.test.mjs",
+    "lint": "node scripts/lint.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
